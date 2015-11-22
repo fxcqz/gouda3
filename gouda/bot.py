@@ -20,8 +20,8 @@ class Gouda(object):
     def load_module(self, module):
         try:
             self.modules[module] = importlib.import_module('gouda.modules.%s.main' % module)
-            self.modules[module].run_schema()
             try:
+                self.modules[module].run_schema()
                 self.mains[module] = getattr(self.modules[module], "main")
             except AttributeError:
                 # no main function
@@ -92,10 +92,7 @@ class Gouda(object):
                         try:
                             module = self.commands[line[1].lower()]
                             func = getattr(self.modules[module], line[1])
-                            if len(line) > 2:
-                                msg = line[2:]
-                            else:
-                                msg = line[offset:]
+                            msg = line[offset:]
                             func(
                                 message=msg,
                                 commands=self.commands.keys(),
