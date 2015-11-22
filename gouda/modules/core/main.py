@@ -9,7 +9,7 @@ def run_schema():
 
 # main
 
-commands = ['log', 'cmds', 'modules']
+commands = ['log', 'cmds', 'modules', 'latest']
 
 def cmds(*args, **kwargs):
     writer = kwargs.pop('writer')
@@ -21,13 +21,21 @@ def modules(*args, **kwargs):
 
 def log(*args, **kwargs):
     writer = kwargs.pop('writer')
-    user = kwargs.pop('message', ['log'])[0]
+    user = kwargs.pop('message', ['', 'log'])[1]
     if user == 'log':
         log = random.choice([msg for msg in Message.select()])
         user = log.name
     else:
         log = random.choice([msg for msg in Message.select().where(Message.name == user)])
     writer("<%s> %s" % (user, log.message))
+
+def latest(*args, **kwargs):
+    writer = kwargs.pop('writer')
+    message = kwargs.pop('message')
+    if message[-1] == 'latest':
+        return
+    user = message[1]
+    writer("<%s> %s" % (user, Message.select().order_by(Message.id.desc()).get().message))
 
 def main(*args, **kwargs):
     writer = kwargs.pop('writer')

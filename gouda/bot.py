@@ -92,10 +92,7 @@ class Gouda(object):
                         try:
                             module = self.commands[line[1].lower()]
                             func = getattr(self.modules[module], line[1])
-                            if len(line) > 2:
-                                msg = line[2:]
-                            else:
-                                msg = line[offset:]
+                            msg = line[offset:]
                             func(
                                 message=msg,
                                 commands=self.commands.keys(),
