@@ -2,22 +2,22 @@ from peewee import *
 import random
 
 from gouda.bot import DATABASE as db
-
-# models
-
-class Message(Model):
-    name = CharField()
-    message = CharField()
-
-    class Meta:
-        database = db
-
-# main
-
-commands = ['log']
+from gouda.models import Message
 
 def run_schema():
     Message.create_table(True)
+
+# main
+
+commands = ['log', 'cmds', 'modules']
+
+def cmds(*args, **kwargs):
+    writer = kwargs.pop('writer')
+    writer('Commands: %s.' % ', '.join(kwargs.pop('commands', ['None'])))
+
+def modules(*args, **kwargs):
+    writer = kwargs.pop('writer')
+    writer('Modules: %s.' % ', '.join(kwargs.pop('modules', ['None'])))
 
 def log(*args, **kwargs):
     writer = kwargs.pop('writer')

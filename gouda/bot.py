@@ -96,7 +96,12 @@ class Gouda(object):
                                 msg = line[2:]
                             else:
                                 msg = line[offset:]
-                            func(message=msg, **kwargs)
+                            func(
+                                message=msg,
+                                commands=self.commands.keys(),
+                                modules=self.modules.keys(),
+                                **kwargs
+                            )
                         except:
                             # pretty much anything can fuck it up
                             pass
