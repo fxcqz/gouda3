@@ -14,18 +14,20 @@ class Message(Model):
 
 # main
 
-commands = ['user']
+commands = ['log']
 
 def run_schema():
     Message.create_table(True)
 
-def user(*args, **kwargs):
+def log(*args, **kwargs):
     writer = kwargs.pop('writer')
-    user = kwargs.pop('message', ['user'])[0]
-    if user == 'user':
-        return
-    messages = Message.select().where(Message.name == user)
-    writer("<%s> %s" % (user, random.choice([m.message for m in messages])))
+    user = kwargs.pop('message', ['log'])[0]
+    if user == 'log':
+        log = random.choice([msg for msg in Message.select()])
+        user = log.name
+    else:
+        log = random.choice([msg for msg in Message.select().where(Message.name == user)])
+    writer("<%s> %s" % (user, log.message))
 
 def main(*args, **kwargs):
     writer = kwargs.pop('writer')
