@@ -18,5 +18,5 @@ if __name__ == '__main__':
             print("Database created.")
 
     connection = Connection(gouda.settings.startup)
-    with ConnectionManager(connection) as conn:
+    with ConnectionManager(connection, gouda.db) as conn:
         gouda.run(conn)

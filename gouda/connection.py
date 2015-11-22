@@ -67,6 +67,7 @@ class ConnectionManager:
     def __init__(self, *args, **kwargs):
         assert len(args) > 0
         self.connection = args[0]
+        self.db = args[1]
 
     def __enter__(self):
         self.connection.connect()
@@ -79,6 +80,9 @@ class ConnectionManager:
             "I'm being murdered!",
             "Later, cunts.",
             "FFFFFUUUUUUCCCCCKKKKKK!!!!",
+            "I didn't like it here anyway.",
+            "The cheese of the day is...",
         ]
         self.connection.quit(random.choice(messages))
+        self.db.close()
         return False
