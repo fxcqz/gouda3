@@ -45,7 +45,8 @@ class Gouda(object):
             if unload in self.modules:
                 self.modules.pop(unload, None)
         for reload_ in reloads:
-            importlib.reload(self.modules[reload_])
+            if reload_ in self.modules:
+                importlib.reload(self.modules[reload_])
             if reload_ in self.mains:
                 self.mains[reload_] = self.modules[reload_].main
 
@@ -75,11 +76,11 @@ class Gouda(object):
         return loads, unloads, reloads
 
     def run(self, conn):
-        kwargs = {'writer': conn.message, 'db': self.db, 'log': True}
+        kwargs = {'writer': conn.message, 'db': self.db, 'log': True, 'name': self.name}
         while True:
             nick, line = conn.read()
             loads, unloads, reloads = [], [], []
-            if line and line[0] != '':
+            if line and ''.join(line) != '':
                 offset = 0
                 if line[0][:-1] == self.name and len(line) > 1:
                     offset = 1

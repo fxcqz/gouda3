@@ -11,3 +11,9 @@ class BaseModel(Model):
 class Message(BaseModel):
     name = CharField()
     message = CharField()
+
+
+class Quote(BaseModel):
+    tag = CharField()
+    user = CharField()
+    message = CharField()

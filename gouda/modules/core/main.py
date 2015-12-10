@@ -30,6 +30,7 @@ def log(*args, **kwargs):
     writer("<%s> %s" % (user, log.message))
 
 def latest(*args, **kwargs):
+    """ most recent message from a user """
     writer = kwargs.pop('writer')
     message = kwargs.pop('message')
     if message[-1] == 'latest':
@@ -38,6 +39,7 @@ def latest(*args, **kwargs):
     writer("<%s> %s" % (user, Message.select().order_by(Message.id.desc()).get().message))
 
 def main(*args, **kwargs):
+    """ mainly used for logging chat """
     writer = kwargs.pop('writer')
     if kwargs.pop('log', True):
         # log message
