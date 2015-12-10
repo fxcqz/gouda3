@@ -23,8 +23,8 @@ def main(*args, **kwargs):
             try:
                 num = int(line[1][5:]) - 1
                 if num >= 0:
-                    message = Message.select().where(Message.id==last_id-num).get().message
-                    Quote.create(tag=tag, user=kwargs.pop('nick', '~'), message=message)
+                    message = Message.select().where(Message.id==last_id-num).get()
+                    Quote.create(tag=tag, user=message.name, message=message.message)
             except ValueError:
                 # naughty user input
                 pass

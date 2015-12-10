@@ -27,6 +27,7 @@ def log(*args, **kwargs):
         user = log.name
     else:
         log = Message.select().where(Message.name == user).order_by(fn.Random()).get()
+        user = log.name
     writer("<%s> %s" % (user, log.message))
 
 def latest(*args, **kwargs):
@@ -36,7 +37,8 @@ def latest(*args, **kwargs):
     if message[-1] == 'latest':
         return
     user = message[1]
-    writer("<%s> %s" % (user, Message.select().order_by(Message.id.desc()).get().message))
+    msg = Message.select().where(Message.name==user).order_by(Message.id.desc()).get()
+    writer("<%s> %s" % (msg.name, msg.message))
 
 def main(*args, **kwargs):
     """ mainly used for logging chat """
