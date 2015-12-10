@@ -23,10 +23,10 @@ def log(*args, **kwargs):
     writer = kwargs.pop('writer')
     user = kwargs.pop('message', ['', 'log'])[1]
     if user == 'log':
-        log = random.choice([msg for msg in Message.select()])
+        log = Message.select().order_by(fn.Random()).get()
         user = log.name
     else:
-        log = random.choice([msg for msg in Message.select().where(Message.name == user)])
+        log = Message.select().where(Message.name == user).order_by(fn.Random()).get()
     writer("<%s> %s" % (user, log.message))
 
 def latest(*args, **kwargs):

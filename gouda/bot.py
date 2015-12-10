@@ -55,13 +55,12 @@ class Gouda(object):
         for name, module in self.modules.items():
             try:
                 commands = getattr(module, "commands")
+                for command in commands:
+                    if command.lower() != 'none':
+                        cmds[command] = name
             except AttributeError:
                 # no command list implemented in module
                 pass
-
-            for command in commands:
-                if command.lower() != 'none':
-                    cmds[command] = name
 
         return cmds
 
@@ -100,9 +99,9 @@ class Gouda(object):
                                 modules=self.modules.keys(),
                                 **kwargs
                             )
-                        except:
+                        except Exception as e:
                             # pretty much anything can fuck it up
-                            pass
+                            print(e)
                 # run anything else...
                 for func in self.mains.values():
                     func(line=line, nick=nick, **kwargs)
