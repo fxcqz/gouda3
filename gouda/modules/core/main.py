@@ -37,8 +37,11 @@ def latest(*args, **kwargs):
     if message[-1] == 'latest':
         return
     user = message[1]
-    msg = Message.select().where(Message.name==user).order_by(Message.id.desc()).get()
-    writer("<%s> %s" % (msg.name, msg.message))
+    try:
+        msg = Message.select().where(Message.name==user).order_by(Message.id.desc()).get()
+        writer("<%s> %s" % (msg.name, msg.message))
+    except:
+        pass
 
 def main(*args, **kwargs):
     """ mainly used for logging chat """
