@@ -48,6 +48,7 @@ class Gouda(object):
                 importlib.reload(self.modules[reload_])
             if reload_ in self.mains:
                 self.mains[reload_] = self.modules[reload_].main
+        self.commands = self.load_commands()
 
     def load_commands(self):
         cmds = {}
