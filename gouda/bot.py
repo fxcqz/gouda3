@@ -20,12 +20,11 @@ class Gouda(object):
     def load_module(self, module):
         try:
             self.modules[module] = importlib.import_module('gouda.modules.%s.main' % module)
-            try:
+            self.commands = self.load_commands()
+            if hasattr(self.modules[module], "run_schema"):
                 self.modules[module].run_schema()
+            if hasattr(self.modules[module], "main"):
                 self.mains[module] = getattr(self.modules[module], "main")
-            except AttributeError:
-                # no main function
-                pass
         except ImportError:
             pass
 
