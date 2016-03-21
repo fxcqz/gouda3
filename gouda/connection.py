@@ -3,6 +3,8 @@ import random
 import socket
 import time
 
+from gouda.models import Message
+
 
 logger = logging.getLogger(__name__)
 
