@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from itertools import takewhile
 
 from gouda.utils.web import get_page_contents
 
@@ -26,7 +27,7 @@ def cotdinfo(*args, **kwargs):
     data = get_page_contents("http://www.cheese.com/%s/" % cheese)
     try:
         soup = BeautifulSoup(data, "html.parser")
-        info = soup.find('div', attrs={'class': 'summary'}).find('p', attrs={'style': 'text-align: justify;'}).text
-        writer('. '.join(info.split('. ')[:2]))
+        info = ''.join(takewhile(lambda x: x != ".", soup.find('div', attrs={'class':'summary'}).text.strip()))
+        writer(info + '.')
     except:
         pass
