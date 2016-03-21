@@ -10,11 +10,11 @@ def cotd(*args, **kwargs):
     data = get_page_contents("http://www.cheese.com/")
     try:
         soup = BeautifulSoup(data, "html.parser")
-        cotd = soup.find('div', attrs={'class': 'top-offer'}).a.get('href').replace('/', '').replace('-', ' ').title()
+        cotd = soup.find('div', attrs={'class': 'top-offer'}).a.get('href').replace('/', '')
         if kwargs.get('suppress', None):
             # return the cotd rather that writing it
             return cotd
-        writer("The cheese of the day is %s." % cotd)
+        writer("The cheese of the day is %s." % cotd.replace('-', ' ').title())
     except AttributeError:
         # no cheesy
         pass
