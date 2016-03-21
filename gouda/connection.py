@@ -44,6 +44,8 @@ class Connection(object):
         self.connection.close()
 
     def message(self, text):
+        # include gouda messages in db
+        Message.create(name=self.nick, message=text)
         self._write('PRIVMSG %s :%s' % (self.channel, text))
 
     def _knock(self):
