@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Cheesebot of love. xo
 """
