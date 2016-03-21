@@ -19,6 +19,14 @@ class Connection(object):
 
     def connect(self):
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # keep alive
+        self.connection.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
+        self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, 300)
+        self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, 30)
+        self.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, 5)
+
+        # connect
         self.connection.connect((self.host, self.port))
         self._write('NICK %s' % self.nick)
         self._write('USER %s 8 * :%s' % (self.nick, self.nick))
