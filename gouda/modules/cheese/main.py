@@ -10,7 +10,7 @@ def cotd(*args, **kwargs):
     data = get_page_contents("http://www.cheese.com/")
     try:
         soup = BeautifulSoup(data, "html.parser")
-        cotd = soup.find('div', attrs={'class': 'top-offer'}).a.get('href').replace('/', '')
+        cotd = soup.find('div', attrs={'class': 'top-offer'}).a.get('href').replace('/', '').replace('-', ' ').title()
         if kwargs.get('suppress', None):
             # return the cotd rather that writing it
             return cotd
