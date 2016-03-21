@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import importlib
 from peewee import SqliteDatabase
 
@@ -10,8 +11,11 @@ class Gouda(object):
     def __init__(self):
         self.settings = Settings("config/config.json")
         self.name = self.settings.core['nick']
-        self.modules = {}
-        self.mains = {}
+        # use ordered dict for definite evaluation
+        # i.e. we know logs will always be saved first since core is loaded
+        # first
+        self.modules = OrderedDict()
+        self.mains = OrderedDict()
         self.load_modules()
         self.commands = self.load_commands()
         self.db = DATABASE

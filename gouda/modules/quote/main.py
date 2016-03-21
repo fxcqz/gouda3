@@ -26,13 +26,13 @@ def main(*args, **kwargs):
         if line[2].startswith("^") and len(line[2]) > 1:
             last_id = Message.select().order_by(Message.id.desc()).get().id
             try:
-                num = int(line[2][1:]) - 1
+                num = int(line[2][1:])
                 if num >= 0:
                     message = Message.select().where(Message.id==last_id-num).get()
                     Quote.create(tag=tag, user=message.name, message=message.message)
-            except ValueError:
+            except ValueError as e:
                 # naughty user input
-                pass
+                print(e)
         else:
             message = ' '.join(line[2:])
             Quote.create(tag=tag, user=kwargs.pop('nick', '~'), message=message)
@@ -44,12 +44,12 @@ def main(*args, **kwargs):
             writer('<%s> %s' % (quote.user, quote.message))
         except:
             # probably no quotes in this tag
-            pass
+            print("Could not load quote with tag %s" % tag)
     elif line[0].startswith("qfind") and len(line) > 1:
         # search records
         try:
-            quote = Quote.select().where(Quote.message.contains(' '.join(line)[1:])).order_by(fn.Random()).get()
+            quote = Quote.select().where(Quote.message.contains(' '.join(line[1:]))).order_by(fn.Random()).get()
             writer('<%s> %s' % (quote.user, quote.message))
         except:
             # probably no quotes in this tag
-            pass
+            print("Could not find quote with pattern %s" % ' '.join(line[1:]))
