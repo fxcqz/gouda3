@@ -12,7 +12,7 @@ def main(*args, **kwargs):
     """ since this module has special syntax we use a main func """
     writer = kwargs.pop('writer')
     line = kwargs.pop('line')
-    if line[0].startswith("q~") and len(line) > 1:
+    if line[0].startswith("qs#") and len(line) > 1:
         # saving a new quote
         if len(line[0]) > 2:
             tag = line[0][2:]
@@ -31,7 +31,7 @@ def main(*args, **kwargs):
         else:
             message = ' '.join(line[1:])
             Quote.create(tag=tag, user=kwargs.pop('nick', '~'), message=message)
-    elif line[0].startswith("q:"):
+    elif line[0].startswith("qr#"):
         # retrieving a quote
         if len(line[0]) <= 2:
             tag = "none"
@@ -43,7 +43,7 @@ def main(*args, **kwargs):
         except:
             # probably no quotes in this tag
             pass
-    elif line[0].startswith("q#") and len(line[0]) > 2:
+    elif line[0].startswith("qf#") and len(line[0]) > 2:
         # search records
         try:
             quote = Quote.select().where(Quote.message.contains(' '.join(line)[2:])).order_by(fn.Random()).get()
