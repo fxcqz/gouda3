@@ -61,7 +61,7 @@ class Connection(object):
             self.join()
 
     def read(self):
-        data = self.receive().decode()
+        data = self.receive().decode('latin1')
         # check for ping
         self.pong(data)
         user, message = None, None
