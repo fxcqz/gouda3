@@ -61,7 +61,13 @@ class Connection(object):
             self.join()
 
     def read(self):
-        data = self.receive().decode('latin1')
+        packet = self.receive()
+        try:
+            # attempt utf-8 first since everyone loves unicode
+            data = packet.decode('utf-8')
+        except UnicodeDecodeError:
+            # default to latin1 for dodgy encodings
+            data = packet.decode('latin1')
         # check for ping
         self.pong(data)
         user, message = None, None
