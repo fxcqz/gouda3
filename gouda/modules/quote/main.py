@@ -1,7 +1,7 @@
 from peewee import *
 
 from gouda.bot import DATABASE as db
-from gouda.models import Message, MessageDoesNotExist, Quote
+from gouda.models import Message, Quote
 
 def run_schema():
     Quote.create_table(True)
@@ -31,7 +31,7 @@ def main(*args, **kwargs):
                     try:
                         message = Message.select().where(Message.id==last_id-num).get()
                         Quote.create(tag=tag, user=message.name, message=message.message)
-                    except MessageDoesNotExist:
+                    except Message.DoesNotExist:
                         # just in case
                         pass
             except ValueError as e:

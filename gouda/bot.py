@@ -29,8 +29,8 @@ class Gouda(object):
                 self.modules[module].run_schema()
             if hasattr(self.modules[module], "main"):
                 self.mains[module] = getattr(self.modules[module], "main")
-        except ImportError:
-            pass
+        except ImportError as e:
+            print("Oh no, an import error:", e)
 
     def load_modules(self):
         """ only run on init, innit """
