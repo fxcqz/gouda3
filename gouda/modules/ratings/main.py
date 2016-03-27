@@ -11,6 +11,8 @@ def main(*args, **kwargs):
     offset = 0
     if len(line[0]) > 1:
         if line[0][:-1] == kwargs.get('name', 'Gouda'):
+            if len(line) < 2:
+                return
             offset = 1
         if line[offset] == "rate":
             writer("%d/8" % random.randint(0, 8))
